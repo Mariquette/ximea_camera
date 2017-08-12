@@ -1,0 +1,14 @@
+serial_no: 49606451
+cam_name: "camera0"
+cams_on_bus: "1"
+exposure_time: 50000
+exposure_time_1: 100000
+exposure_time_2: 300000
+exposure_time_3: 500000
+exposure_time_4: 900000
+manual_gain: "0.0"
+manual_gain_1: "3.0"
+manual_gain_2: "6.0"
+manual_gain_3: "12.0"
+manual_gain_4: "18.0"
+image_data_format: "XI_RGB24"
