@@ -162,7 +162,7 @@ void ximea_ros_driver::publishCamSettings(const ros::Time &now){
    boost::posix_time::ptime my_posix_time = now.toBoost(); 
    std::string iso_time_string = boost::posix_time::to_iso_extended_string(my_posix_time); 
     
-   cam_settings_string_.data = "Time:"+ iso_time_string + "::Exposuse:"+ toString(getExposureSet())+ "::Gain:" + toString(getGainSet())+"::TempChip:"+toString(readSensorTemperature());
+   cam_settings_string_.data = "Time:"+ iso_time_string + "::Exposure:"+ toString(getExposureSet())+ "::Gain:" + toString(getGainSet())+"::TempChip:"+toString(readSensorTemperature());
    cam_settings_pub_.publish(cam_settings_string_);
 }
 
