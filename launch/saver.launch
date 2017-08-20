@@ -1,0 +1,13 @@
+<launch>
+
+  <!-- launch the node -->
+  <node name="saver_ximea" pkg="ximea_camera" type="saver_ximea" output="screen">
+
+    <rosparam param="camera_param_file_paths" subst_value="true">[$(find ximea_camera)/config/ximea0.yaml]</rosparam>
+
+    <!-- set directory for data -->
+    <param name="directory" value="/home/daniela/DATA/Ximea/" />
+
+  </node>
+
+</launch>

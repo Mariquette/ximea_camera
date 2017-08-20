@@ -21,6 +21,7 @@ find_package(Boost REQUIRED COMPONENTS system thread)
 add_message_files(
    FILES
    XimeaCamSensorMsg.msg
+   XimeaMeta.msg
 )
 
 ## Generate added messages and services with any dependencies listed here ...
@@ -61,6 +62,13 @@ target_link_libraries(
     yaml-cpp
     ${Boost_LIBRARIES}
 )
+
+add_executable(saver_ximea src/saver_ximea.cpp)
+add_dependencies(saver_ximea ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(saver_ximea
+  ${catkin_LIBRARIES}
+)
+
 
 # ROSLINT
 set(ROSLINT_CPP_OPTS  "--filter=-whitespace/line_length,-readability/todo" )

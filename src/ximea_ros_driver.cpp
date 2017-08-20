@@ -55,6 +55,7 @@ ximea_ros_driver::ximea_ros_driver(const ros::NodeHandle &nh, std::string cam_na
   // Custom message /production ...
   // -----------------------------
   cam_custom_pub_= pnh_.advertise<ximea_camera::XimeaCamSensorMsg>(std::string("ximea_info_settings"), 1);		
+//  cam_custom_pub_= pnh_.advertise<ximea_camera::XimeaMeta>(std::string("ximea_meta"), 1);		
 
 }
 
@@ -85,6 +86,7 @@ ximea_ros_driver::ximea_ros_driver(const ros::NodeHandle &nh, std::string file_n
   // Custom message /production ...
   // -----------------------------
   cam_custom_pub_= pnh_.advertise<ximea_camera::XimeaCamSensorMsg>(std::string("ximea_info_settings"), 1);
+//  cam_custom_pub_= pnh_.advertise<ximea_camera::XimeaMeta>(std::string("ximea_meta"), 1);
 }
 
 // common_initialize - private function ...
@@ -115,6 +117,7 @@ void ximea_ros_driver::common_initialize(const ros::NodeHandle &nh){
   // Custom message /production ...
   // -----------------------------
   cam_custom_pub_= pnh_.advertise<ximea_camera::XimeaCamSensorMsg>(std::string("/ximea_info_settings"), 1);
+//  cam_custom_pub_= pnh_.advertise<ximea_camera::XimeaMeta>(std::string("/ximea_meta"), 1);
   
 }
 
@@ -170,7 +173,8 @@ void ximea_ros_driver::publishCamSettings(const ros::Time &now){
 // ----------------------------------------------
 void ximea_ros_driver::publishCamCustomSettings(const ros::Time &now){
     
-    cam_custom_info_.header.stamp = now;
+//    cam_custom_info_.header.stamp = now;
+    cam_custom_info_.stamp = now;
     cam_custom_info_.exposure_time = (float)getExposureSet();
     cam_custom_info_.gain = (uint8_t)getGainSet();
     cam_custom_info_.temperature = (float)readSensorTemperature();
