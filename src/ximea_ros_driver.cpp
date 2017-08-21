@@ -132,7 +132,8 @@ void ximea_ros_driver::publishImage(const ros::Time & now){
   ros_image_.width = image_.width;
   ros_image_.height = image_.height;
   ros_image_.step = image_.width * bpp_;
-
+  ros_image_.header.stamp = now;
+  
   copy(reinterpret_cast<char *>(cam_buffer_),
        (reinterpret_cast<char *>(cam_buffer_)) + cam_buffer_size_,
        ros_image_.data.begin());

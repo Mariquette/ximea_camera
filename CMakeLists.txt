@@ -9,12 +9,14 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   image_transport
   sensor_msgs
+  cv_bridge
   camera_info_manager
   roslint
   message_generation
 )
 
 find_package(Boost REQUIRED COMPONENTS system thread)
+find_package(OpenCV 2 REQUIRED COMPONENTS core highgui)
 
 ## Generate messages in the 'msg' folder ...
 ## -----------------------------------------
@@ -35,8 +37,8 @@ generate_messages(
 catkin_package(
   LIBRARIES ximea_camera
   CATKIN_DEPENDS roscpp roslint sensor_msgs message_runtime
-  DEPENDS system_lib TinyXML
-  DEPENDS boost
+  DEPENDS system_lib TinyXML boost
+  DEPENDS opencv2
 )
 
 include_directories(include)

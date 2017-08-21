@@ -13,8 +13,9 @@
 #include <std_msgs/Float64.h>
 
 #include <image_transport/image_transport.h>
-//#include <opencv2/highgui/highgui.hpp>
-//#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.h>
+#include <sensor_msgs/image_encodings.h>
+#include <opencv2/highgui/highgui.hpp>
 
 using namespace std;
 
@@ -30,12 +31,9 @@ double date;
 //void metadataCallBack(const ximea_camera::XimeaMetaConstPtr& msg)
 void metadataCallBack(const ximea_camera::XimeaCamSensorMsgConstPtr& msg)
 {
-    ROS_INFO("Callback");
-
+    // create a filename based on current time, precision on miliseconds    
     char filename[40];
     date =  msg->stamp.toSec();
-
-    // create a filename based on current time, precision on miliseconds    
     sprintf(filename, "%.3f.txt", date);  
 
     // add the directory name
@@ -60,25 +58,32 @@ void metadataCallBack(const ximea_camera::XimeaCamSensorMsgConstPtr& msg)
         ROS_INFO("Metadata for %s saved", fname.c_str());
     }
 }
-/*
+
 void imageCallBack(const sensor_msgs::ImageConstPtr& msg)
 {
+    // create a filename based on current time, precision on miliseconds    
     char filename[40];
-    cv_bridge::CvImagePtr cv_ptr;
-    
+    date =  msg->header.stamp.toSec();
+    sprintf(filename, "%.3f.tiff", date);
+
+    // add the directory name
+    string path = string(directory+string(filename));
+
+    // save image to file
+    cv_bridge::CvImagePtr cv_ptr;    
     try{
       cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
     } catch (cv_bridge::Exception& e){
       ROS_ERROR("cv_bridge exception: %s", e.what());
       return;
     }
-
-    sprintf(filename, "%.3f", date);
-    string fname= string(filename);
-    cv::imwrite("/home/odroid/DATA/Ximea/"+fname+".tiff", cv_ptr->image);
-    ROS_INFO("Image %s saved", fname.c_str());
+    if (!cv::imwrite(path.c_str(), cv_ptr->image)) {
+        ROS_ERROR("Cannot save the image file.");
+    } else {
+      string fname= string(filename);
+      ROS_INFO("Image %s saved", fname.c_str());
+    }
 }
-*/
 
 int main(int argc, char **argv)
 {
@@ -89,14 +94,12 @@ int main(int argc, char **argv)
   // load parameters from config file (launch file)
   nh_.param("directory", directory, string());
 
-  // subscriber
-  //  "topic", buffer, fce, transport layer
+  // subscribers
   meta_subscriber = nh_.subscribe("/camera0/ximea_info_settings", 10, &metadataCallBack, ros::TransportHints().tcpNoDelay());
 //  meta_subscriber = nh_.subscribe("/camera0/ximea_meta", 10, &metadataCallBack, ros::TransportHints().tcpNoDelay());
   image_transport::ImageTransport it(nh_);
-//  image_subscriber = it.subscribe("/ximea/image", 1, &imageCallBack);
+  image_subscriber = it.subscribe("/camera0/image_raw", 1, &imageCallBack);
     
-
   ros::spin();
 
   return 0;
