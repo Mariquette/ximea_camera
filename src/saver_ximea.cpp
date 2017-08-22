@@ -9,7 +9,7 @@
 // message
 //#include <ximea_camera/XimeaMeta.h>
 #include <ximea_camera/XimeaCamSensorMsg.h>
-#include <rospix/Image.h>
+//#include <rospix/Image.h>
 #include <std_msgs/Float64.h>
 
 #include <image_transport/image_transport.h>
